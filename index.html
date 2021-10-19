@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>VectorGrid Protobuf Leaflet</title>
+        <link rel="icon" href="icon/icon.png" type="image/x-icon">
+        <!-- Load Leaflet from CDN -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+        <!-- Load VectorGrid Plugin -->
+        <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script>
+        <!-- Load style from Carto -->
+        <link href="https://carto.com/developers/carto-js/examples/maps/public/style.css" rel="stylesheet">
+
+        <style>
+            body { 
+                margin:0; 
+                padding:0;
+            }
+            #map {
+                position: absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                font-family: sans-serif;
+                font-size: 14px;
+                color: #323232;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="map"></div>
+
+        <aside class="toolbox">
+            <div class="box">
+                <header>
+                    <h1>Menampilkan Vectortile menggunakan VectorGrid Protobuf</h1>
+                    <a href="https://github.com/ridhodwid/Leaflet.Protobuf.VectorGrid"button" class="github-logo" target="_blank"></a>
+                </header>
+                <section>
+                    <p class="description open-sans">VectorGrid merupakan salah satu plugin untuk menampilkan vectortile pada Leaflet. Tujuan penggunaannya adalah untuk mempercepat proses rendering data berukuran besar atau memiliki kompleksitas tinggi.</p>
+                </section>
+            </div>
+        </aside>
+
+        <script>
+            var map = L.map('map').setView([-7.69164,110.40834], 11);
+            var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + '© <a href="https://www.mapbox.com/">Mapbox</a>',
+            mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmlkaG9kd2kiLCJhIjoiY2pmcmV6cDF6MjMwZTMzcnE2dWk4Z3c3YyJ9.Uceki8m-y6Sa-zN7WT7JeQ';
+            var greyscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+            var streets  = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr}).addTo(map);
+            var osmstandard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+            
+            function getColor(d) {
+                return  d == 1 ? '#ffd32a' :
+				        d == 2 ? '#1e3799' :
+				        d == 3 ? '#778beb' :
+				        d == 4 ? '#95afc0' :
+				        d == 5 ? '#82ccdd' :
+				        d == 6 ? '#546de5' :
+				        d == 7 ? '#9AECDB' :
+                        d == 8 ? '#576574' :
+                        d == 9 ? '#78e08f' :
+                        d == 10 ? '#78e08f' :
+                        d == 11 ? '#f19066' :
+                        d == 12 ? '#cf6a87' :
+                        d == 13 ? '#f7f1e3' :
+                        d == 14 ? '#009432' :
+                        d == 15 ? '#7bed9f' :
+                        d == 16 ? '#a6cee3' :
+                        d == 17 ? '#FED976' :
+                        d == 18 ? '#dff9fb' :
+                        d == 19 ? '#fffa65' :
+                        d == 20 ? '#079992' :
+                        d == 21 ? '#A3CB38' :
+                        d == 22 ? '#b2bec3' :
+                        d == 23 ? '#c44569' :
+                        d == 24 ? '#BDC581' : '#e84118';
+            }
+            
+            function style(properties, zoom) {
+                return {
+                    fill: true,
+                    fillColor: getColor(properties.pl_id),
+                    fillOpacity: 0.8,
+                    stroke: true,
+                    color: 'white',
+                    weight: 0.5
+                }
+            }
+
+            var pl_sleman_vt = L.vectorGrid.protobuf("https://ridhodwi.my.id/Leaflet.Protobuf.VectorGrid/vtiles/{z}/{x}/{y}.pbf", {
+                rendererFactory: L.canvas.tile,
+                vectorTileLayerStyles: {
+                    pl_slm: style 
+                },
+                interactive:true
+            })
+            .addTo(map)
+            .on('mouseover', function(e) {
+                var properties = e.layer.properties;
+				L.popup()
+					.setContent(properties.PENUTUP_LA)
+					.setLatLng(e.latlng)
+					.openOn(map);
+                });
+
+            var baseLayers = {
+                "Mapbox Greyscale": greyscale,
+                "Mapbox Streets": streets,
+                "OpenStreet Map Standard" : osmstandard
+            };	
+            var overlay = {
+                "Penggunaan Lahan": pl_sleman_vt
+            };	
+            // Menambahkan Kontrol Layer
+            L.control.layers(
+                baseLayers, 
+                overlay, {
+                    collapsed: false,
+                    position: 'bottomleft'
+                }
+            ).addTo(map);
+            // Menambahkan Skala Batang
+            L.control.scale({
+                maxWidth: 150,
+                imperial: false,
+                position: 'bottomright'
+            }).addTo(map);
+        </script>
+    </body>
+</html>

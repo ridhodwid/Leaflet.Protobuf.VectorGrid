@@ -1,0 +1,14 @@
+{
+"name": "vtiles",
+"description": "vtiles",
+"version": "2",
+"minzoom": "10",
+"maxzoom": "19",
+"center": "110.298271,-7.705888,19",
+"bounds": "110.215882,-7.836660,110.546694,-7.541162",
+"type": "overlay",
+"format": "pbf",
+"generator": "tippecanoe v1.36.0",
+"generator_options": "tippecanoe -pk -pC -P -an -z19 -Z10 -e vtiles --extend-zooms-if-still-dropping /mnt/d/Users/Ridho/Downloads/pl_sleman/pl_slm.geojson --force",
+"json": "{\"vector_layers\": [ { \"id\": \"pl_slm\", \"description\": \"\", \"minzoom\": 10, \"maxzoom\": 19, \"fields\": {\"PENUTUP_LA\": \"String\", \"Sumber\": \"String\", \"fid\": \"Number\", \"pl_id\": \"Number\"} } ],\"tilestats\": {\"layerCount\": 1,\"layers\": [{\"layer\": \"pl_slm\",\"count\": 1642,\"geometry\": \"Polygon\",\"attributeCount\": 4,\"attributes\": [{\"attribute\": \"PENUTUP_LA\",\"count\": 24,\"type\": \"string\",\"values\": [\"Bangunan industri, perdagangan dan perkantoran\",\"Bangunan non-permukiman lain\",\"Bangunan permukiman desa\",\"Bangunan permukiman kota\",\"Danau wisata air\",\"Danau/telaga alami\",\"Embung\",\"Hamparan Lahar/lava\",\"Hutan lahan tinggi primer kerapatan sedang\",\"Kebun campuran\",\"Kolam ikan air tawar\",\"Ladang/tegalan dengan holtikultura\",\"Ladang/tegalan dengan palawija\",\"Lahan terbuka lain\",\"Landasan Pacu\",\"Padang golf\",\"Pekarangan\",\"Perkebunan salak\",\"Sawah irigasi\",\"Sawah tadah hujan\",\"Semak belukar\",\"Stadion dan sarana olah raga\",\"Sungai\",\"Terminal bandara\"]},{\"attribute\": \"Sumber\",\"count\": 1,\"type\": \"string\",\"values\": [\"RBI Skala 1:25.000 Tahun 2006, Citra SPOT 6 dan 7 Tahun 2020, Citra CSRT BIG 2013-2015\"]},{\"attribute\": \"fid\",\"count\": 1000,\"type\": \"number\",\"values\": [1,10,100,1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,101,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,102,1020,1021,1022,1023,1024,1025,1026,1027,1028,1029,103,1030,1031,1032,1033,1034,1035,1036,1037,1038,1039,104,1040,1041,1042,1043,1044,1045,1046,1047,1048,1049,105,1050,1051,1052,1053,1054,1055,1056,1057,1058,1059,106,1060,1061,1062,1063,1064,1065,1066,1067,1068,1069,107,1070,1071,1072,1073,1074,1075,1076,1077,1078,1079,108,1080,1081,1082,1083,1084,1085,1086,1087,1088],\"min\": 1,\"max\": 1642},{\"attribute\": \"pl_id\",\"count\": 24,\"type\": \"number\",\"values\": [1,10,11,12,13,14,15,16,18,19,2,20,21,22,23,24,25,3,4,5,6,7,8,9],\"min\": 1,\"max\": 25}]}]}}"
+}
